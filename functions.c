@@ -1,112 +1,48 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdbool.h>
-#include <math.h>
-#include <time.h>
+#include <stdlib.h>
+#include "structs.h"
+#include "functions.h"
 
+//extern int N;
+extern nodo red[];
 
-
-#define N 1000 // numero de nodos
-
-typedef struct{
-  int  id;
-  int estadoActual;
-  int estadoAntiguo;
-  int k; // número de elementos en cnx
-  int *cnx; // conexiones
-  int nulos;
-} Node;
-
-typedef struct{
-  int id;
-  //int N; //number of nodes
-  Node* nodeList;
-  //float p; //rewiring probability
-  //int K; //number of starting neighbors (coordination number)
-}Red;
-
-// Fercho El Teorista de Numeros
-
- // arreglo global de nodos y sus conexiones
-
-void inicializarRed(int);
-void cableadoInicial(int);
-void sumarLink(int, int);
-void recableadoRed(float, int);
-int nuevoNodo(int);
-void liberarMemoria(void);
-void imprimir(int);
-float prob(void);
-int encontrarVecino(int, int );
-float critialProbAct(int, float, int);
-void inicializarMuestra(int, float);
-void actualizarRed(float, int);
-void actualizarEstadoNodo(int, float);
-bool algunVecinoActivo(int);
-float actividadRed(void);
-void swap(int, int);
-void quitarLink(int);
-void inicializarEstadosRed();
-void correccionEstadosRed(void);
-float actividadMuestra(float, float);
-void imprimirRed();
-
-
-
-//////////////////////   main   ///////////////////////
-
-int main(){
-
-}
-
-/* -----------------------FUNCIONES-------------------------*/
-
-
-void cableadoInicial(int K, Red* redEst){
+void cableadoInicial(int K){
   int i,j;
   /* function that create the initial ordered connections of the network
   putting for each node half of the neighbors to the rigth and half to the left
    */
-  Node red[] = redEst -> nodeList;
-  int class = redEst -> id;
-
   for(i=0;i<N;++i){
     for(j=-K/2; j<0; ++j){
-      red[i].cnx[(K/2)+j]= red[((N+(i+j))%N)].id;
-      red[i].cnx[(K/2)-j-1]= red[((i-j)%N)].id;
-
+      red[i].cnx[(K/2)+j]=((N+(i+j))%N);
+      red[i].cnx[(K/2)-j-1]=((i-j)%N);
     }
   }
-  redEst -> nodeList = red;
 }
 
-void inicializarRed(int K, Red* redEst){
+void inicializarRed(int K){
   int i;
   /*
   With this procedure we put all the properties of each node and also we
   allocate the memory that each node requier for the vector of conections With
   their neighbors
   */
-  int class = redEst -> id;
-  Node red[] = redEst -> nodeList;
-
   for(i=0;i<N;++i) {
-    red[i].id = i*NRed + class;
     red[i].cnx=malloc(K*sizeof(int)); // asignación de memoria inicial
     red[i].k=K;
   }
 }
 
-void sumarLink(int i,int new, Red* redEst){
-  /*
-  Beware new is the node that we add the node i
-  */
-
-  Node red[] = redEst -> nodeList;
-
+void sumarLink(int i,int new){
   ++red[new].k;
   red[new].cnx=realloc(red[new].cnx,red[new].k*sizeof(int));
-  red[new].cnx[red[new].k-1]= red[i].id;
+  red[new].cnx[red[new].k-1]=i;
 }
 
 void quitarLink(int i){
@@ -180,7 +116,7 @@ void imprimirRed(){
 }
 
 float prob(void){
-  return((float)rand()/RAND_MAX);
+  return ((float)rand()/RAND_MAX);
 }
 
 
@@ -284,27 +220,3 @@ float actividadRed(void){
   for(i=0;i<N;++i) if(red[i].estadoActual==2) ++Activos;
   return((float)Activos/N);
 }
-
-
-
-/////////////////////////
-
-
-
-
-
-/////////////////////////CLUSTER FUNCTIONS//////////////////////////////
-
-
-
-/////FUTURE IMPLEMENTATION
-// Red* generateCluster(int NRed, int N, int K, float p){
-//   Red* cluster = malloc(Nred*sizeof(Red));
-//   for(int i=0;i<NRed;i++){
-//
-//     (cluster+i)* = inicializarRed(N,K,p,i); //i es la clase i MOD NRed
-//
-//   }
-//   return cluster;
-//
-// }
