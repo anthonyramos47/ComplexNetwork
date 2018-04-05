@@ -10,11 +10,13 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <itemPath>FuncionesDinamicaRed.c</itemPath>
+      <itemPath>FuncionesNodo.c</itemPath>
+      <itemPath>FuncionesRed.c</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>functions.c</itemPath>
       <itemPath>main.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -44,7 +46,11 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="functions.c" ex="false" tool="0" flavor2="0">
+      <item path="FuncionesDinamicaRed.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="FuncionesNodo.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="FuncionesRed.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="functions.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -73,7 +79,11 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="functions.c" ex="false" tool="0" flavor2="0">
+      <item path="FuncionesDinamicaRed.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="FuncionesNodo.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="FuncionesRed.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="functions.h" ex="false" tool="3" flavor2="0">
       </item>

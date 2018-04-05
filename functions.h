@@ -29,7 +29,7 @@ extern "C" {
     void imprimir(int);
     float prob(void);
     int encontrarVecino(int, int );
-    float critialProbAct(int, float, int);
+    float criticalProbAct(int, float, int);
     void inicializarMuestra(int, float);
     void actualizarRed(float, int);
     void actualizarEstadoNodo(int, float);
