@@ -35,7 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/functions.o \
+	${OBJECTDIR}/FuncionesDinamicaRed.o \
+	${OBJECTDIR}/FuncionesNodo.o \
+	${OBJECTDIR}/FuncionesRed.o \
 	${OBJECTDIR}/main.o
 
 
@@ -63,10 +65,20 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/complexnetwork: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/complexnetwork ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/functions.o: functions.c
+${OBJECTDIR}/FuncionesDinamicaRed.o: FuncionesDinamicaRed.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/functions.o functions.c
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FuncionesDinamicaRed.o FuncionesDinamicaRed.c
+
+${OBJECTDIR}/FuncionesNodo.o: FuncionesNodo.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FuncionesNodo.o FuncionesNodo.c
+
+${OBJECTDIR}/FuncionesRed.o: FuncionesRed.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FuncionesRed.o FuncionesRed.c
 
 ${OBJECTDIR}/main.o: main.c
 	${MKDIR} -p ${OBJECTDIR}

@@ -102,7 +102,7 @@ int main(int argc, char** argv) {
           // by running 30 samples of the network and computing the activity
           // for each one
 
-          promCritialProbAct+=critialProbAct(K,probRecableado,T);
+          promCritialProbAct+=criticalProbAct(K,probRecableado,T);
         }
 
         promCritialProbAct /= numMuestraMax;
