@@ -10,6 +10,9 @@
 #include "structs.h"
 #include "functions.h"
 
+extern nodo red[];
+
+
 void swap(int i, int j){
   int aux,last=red[i].k-1;
   aux=red[i].cnx[last];
