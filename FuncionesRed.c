@@ -1,101 +1,160 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include "structs.h"
 #include "functions.h"
 
-//extern int N;
-extern nodo red[];
 
-void cableadoInicial(int K){
-  int i,j;
+
+void imprimirRed(Red* red, int numReds){
+  int N = red -> N; //invocamos al numero de nodos de la red
+  int clase = red -> id; //invocamos a la clase de la red
+  Nodo* nodos = red -> nodos; //invocamos al arreglo de nodos de la red
+  
+  printf("\n Red %d:\n", clase);
+  for(int i = 0; i < N; i++){
+    //modificamos la variable "i" para convertirla en el indice correcto 
+    //respecto al numero de redes y a la propia red
+    printf("Nodo %d: ",i*numReds+clase);
+    for(int j=0;j<nodos[i].k;j++){
+        printf( " -> %d",nodos[i].cnx[j]); 
+    }
+    printf("--!\n");
+  }
+}
+
+/*
+With this procedure we put all the properties of each node and also we
+allocate the memory that each node requier for the vector of conections With
+their neighbors
+*/
+void inicializarRed(Red* red){
+    //invocamos al numero de cordinacion (numero de vecinos promedio) de la red
+    int K = red -> K; 
+    int N = red -> N; //invocamos al numero de nodos de la red
+  
+    //asignamos memoria a los nodos de la red
+    Nodo* nodos = malloc(N*sizeof(Nodo)); 
+                                                            
+  for(int i=0;i<N;++i) {
+      //asignamos memoria al arreglo de conexiones de cada nodo
+      nodos[i].cnx = malloc(K*sizeof(int)); 
+      nodos[i].k = K;
+  }
+  red -> nodos = nodos;
+}
+
   /* function that create the initial ordered connections of the network
   putting for each node half of the neighbors to the rigth and half to the left
-   */
-  for(i=0;i<N;++i){
-    for(j=-K/2; j<0; ++j){
-      red[i].cnx[(K/2)+j]=((N+(i+j))%N);
-      red[i].cnx[(K/2)-j-1]=((i-j)%N);
-    }
-  }
-}
-
-void inicializarRed(int K){
-  int i;
-  /*
-  With this procedure we put all the properties of each node and also we
-  allocate the memory that each node requier for the vector of conections With
-  their neighbors
   */
-  for(i=0;i<N;++i) {
-    red[i].cnx=malloc(K*sizeof(int)); // asignación de memoria inicial
-    red[i].k=K;
-  }
-}
-
-void sumarLink(int i,int new){
-  ++red[new].k;
-  red[new].cnx=realloc(red[new].cnx,red[new].k*sizeof(int));
-  red[new].cnx[red[new].k-1]=i;
-}
-
-void quitarLink(int i){
-  --red[i].k;
-   red[i].cnx=realloc(red[i].cnx,red[i].k*sizeof(int));
-}
-
-void recableadoRed(float probRecableado, int K){
-  int i, j, nuevo, indiceVecino, cont;
-
-  for(i=N-1;i>=0;--i){
-    for(j=0;j<K/2;++j){
-      if(prob()<probRecableado){
-      	nuevo = nuevoNodo(i);
-      	sumarLink(i, nuevo);
-      	indiceVecino = encontrarVecino(i,red[i].cnx[j]);
-      	swap(red[i].cnx[j], indiceVecino);
-      	quitarLink(red[i].cnx[j]);
-      	red[i].cnx[j]=nuevo;
+void cableadoInicial(Red* red, int numReds){
+    int N = red -> N;
+    int K = red -> K;
+    //obtenemos el id de la red que corresponde a la clase modulo a la que 
+    //corresponde
+    int clase = red -> id; 
+    Nodo* nodos = red -> nodos; //invocamos a los nodos de la red
+    for(int i=0;i<N;++i){
+        for(int j=-K/2; j<0; ++j){
+            //asignamos los valores de las conexiones de los K vecinos mas 
+            //proximos. K/2 estan en direccion antohoraria y los restantes K/2 
+            //en direccion horaria. Los valores estan convertidos a notacion 
+            //modular
+            nodos[i].cnx[(K/2)+j]=((N+(i+j))%N)*numReds+clase;
+            nodos[i].cnx[(K/2)-j-1]=((i-j)%N)*numReds+clase;
       }
-      else{++cont;}
     }
-  }
-
 }
 
-int encontrarVecino(int i, int j){
-  int k;
-  for(k=0;k<red[j].k;++k)if(red[j].cnx[k]==i) break;
-  return(k);
-}
+void recablearRed(Red* red, int numReds){
+    
+    //Obtenemos los parametros de la red
+    int N = red -> N;
+    int K = red -> K;
+    float probRec = red -> p;
+    int clase = red -> id;
+    Nodo* nodos = red -> nodos;;
+    //--
+    
+    //Son variables auxiliares
+    int nuevo, idxViejoM, idxActualM, idxViejoP;
 
-int nuevoNodo(int i){
-  int ver, j, nodo;
-  bool booleano = false;
-  while(!booleano){
-    nodo = rand()%N;
-    if(nodo != i){
-      for(j=0;j<red[i].k;++j){if(nodo ==red[i].cnx[j]) break;}
-      if(j == red[i].k) booleano = true;
+    //Iteramos sobre cada nodo
+    for(int i= N-1;i>=0;--i){
+        //Iteramos sobre la mitad de las conexiones de los nodos
+        for(int j=0;j<K/2;++j){
+            if(prob()<probRec){ //Preguntamos si el nodo se recableará
+                //Convertimos el indice "i" al respectivo valor modular
+                idxActualM = i*numReds+clase;
+                //Se obtiene el indice posicional del nodo nuevo
+                nuevo = generarNodoAleatorio(idxActualM, N, numReds, clase, nodos[i]);
+                //Añade el indice modular actual al nuevo nodo
+                sumarLink(idxActualM, &nodos[nuevo]);
+                //Obtenemos el indice posicional del vecino j
+                idxViejoP = (nodos[i].cnx[j] - clase)/numReds;
+                //Dados dos nodos i y j, se halla el indice posicional donde se 
+                //encuentra el nodo i en el arreglo de conexiones del nodo j 
+                idxViejoM = encontrarEnVecino(i,nodos[idxViejoP]);
+                //Corrige el arreglo de conexiones del nodo j
+                swapYQuitarLink(&nodos[idxViejoP], idxViejoM);
+                //Se asigna la nueva conexion al nodos i
+                nodos[i].cnx[j]=nuevo*numReds+clase;
+            }
+        }
     }
-  }
-  return(nodo);
 }
 
-void imprimirRed(){
-  int i;
-  for(i=0; i<N; ++i){
-    printf("Nodo :%i \t ActividadActual: %i \t ActividadAntigua: %i \n",i, red[i].estadoActual, red[i].estadoAntiguo );
-  }
-
+void recablearNodo(){
+    
 }
 
-float prob(void){
-  return ((float)rand()/RAND_MAX);
+
+
+
+
+/*
+ 
+ void recablearRed(Red* red, int numReds){
+    
+    //Obtenemos los parametros de la red
+    int N = red -> N;
+    int K = red -> K;
+    float probRec = red -> p;
+    int clase = red -> id;
+    Nodo* nodos = red -> nodos;;
+    //--
+    
+    //Son variables auxiliares
+    int nuevo, indiceVecino, idxActual, posicionVecino;
+
+    //Iteramos sobre cada nodo
+    for(int i= N-1;i>=0;--i){
+        //Iteramos sobre la mitad de las conexiones de los nodos
+        for(int j=0;j<K/2;++j){
+            if(prob()<probRec){ //Preguntamos si el nodo se recableará
+                //Convertimos el indice "i" al respectivo valor modular 
+                idxActual = i*numReds+clase;
+                
+                recablearNodo(idxActual)
+            }
+        }
+    }
 }
+
+void recablearNodo(int idxActual, int idxViejo, int idxNuevo, Nodo* nodoActual, Nodo* nodoViejo, Nodo* nodoNuevo){
+    //Se obtiene el indice posicional del nodo nuevo
+    nuevo = generarNodoAleatorio(idxActual, N, numReds, clase, nodos[i]);
+    //Añade el indice modular actual al nuevo nodo
+    sumarLink(idxActual, &nodos[nuevo]);
+    //Obtenemos el indice posicional del vecino j
+    posicionVecino = (nodos[i].cnx[j] - clase)/numReds;
+    //Dados dos nodos i y j, se halla el indice posicional donde se 
+    //encuentra el nodo i en el arreglo de conexiones del nodo j 
+    indiceVecino = encontrarEnVecino(i,nodos[posicionVecino]);
+    //Corrige el arreglo de conexiones del nodo j
+    swapYQuitarLink(&nodos[posicionVecino], indiceVecino);
+    //Se asigna la nueva conexion al nodos i
+    nodos[i].cnx[j]=nuevo*numReds+clase;
+}
+ 
+ 
+ */

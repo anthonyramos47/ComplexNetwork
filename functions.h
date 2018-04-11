@@ -11,7 +11,7 @@
  * Created on 4 de abril de 2018, 17:17
  */
 #include <stdbool.h>
-#define N 10 // numero de nodos
+#include "structs.h"
 
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
@@ -20,28 +20,41 @@
 extern "C" {
 #endif
     
-    void inicializarRed(int);
-    void cableadoInicial(int);
-    void sumarLink(int, int);
-    void recableadoRed(float, int);
-    int nuevoNodo(int);
+    //FuncionesRed.c
+    void inicializarRed(Red*);
+    void cableadoInicial(Red*,int);
+    void imprimirRed(Red*,int);
+    void recablearRed(Red*,int);
+    
+    
+    //FuncionesRecableadoRed.c
+    int  generarNodoAleatorio(int,int,int,int,Nodo);
+    void sumarLink(int, Nodo*);
+    int encontrarEnVecino(int,Nodo);
+    void swapYQuitarLink(Nodo*, int);
+    
+    //FuncionesExtras.c
+    float prob(void);
+    
+    
+    
+//_----------------------------------    
+    
+    
     void liberarMemoria(void);
     void imprimir(int);
-    float prob(void);
-    int encontrarVecino(int, int );
+   
     float criticalProbAct(int, float, int);
     void inicializarMuestra(int, float);
     void actualizarRed(float, int);
     void actualizarEstadoNodo(int, float);
     bool algunVecinoActivo(int);
     float actividadRed(void);
-    void swap(int, int);
-    void quitarLink(int);
+   
     void inicializarEstadosRed();
     void correccionEstadosRed(void);
     float actividadMuestra(float, float);
-    void imprimirRed();
-
+    
 #ifdef __cplusplus
 }
 #endif

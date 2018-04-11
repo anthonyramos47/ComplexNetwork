@@ -36,8 +36,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/FuncionesDinamicaRed.o \
-	${OBJECTDIR}/FuncionesNodo.o \
+	${OBJECTDIR}/FuncionesExtras.o \
+	${OBJECTDIR}/FuncionesRecableadoRed.o \
 	${OBJECTDIR}/FuncionesRed.o \
+	${OBJECTDIR}/FuncionesSuperRed.o \
 	${OBJECTDIR}/main.o
 
 
@@ -70,15 +72,25 @@ ${OBJECTDIR}/FuncionesDinamicaRed.o: FuncionesDinamicaRed.c
 	${RM} "$@.d"
 	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FuncionesDinamicaRed.o FuncionesDinamicaRed.c
 
-${OBJECTDIR}/FuncionesNodo.o: FuncionesNodo.c
+${OBJECTDIR}/FuncionesExtras.o: FuncionesExtras.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FuncionesNodo.o FuncionesNodo.c
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FuncionesExtras.o FuncionesExtras.c
+
+${OBJECTDIR}/FuncionesRecableadoRed.o: FuncionesRecableadoRed.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FuncionesRecableadoRed.o FuncionesRecableadoRed.c
 
 ${OBJECTDIR}/FuncionesRed.o: FuncionesRed.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FuncionesRed.o FuncionesRed.c
+
+${OBJECTDIR}/FuncionesSuperRed.o: FuncionesSuperRed.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FuncionesSuperRed.o FuncionesSuperRed.c
 
 ${OBJECTDIR}/main.o: main.c
 	${MKDIR} -p ${OBJECTDIR}
