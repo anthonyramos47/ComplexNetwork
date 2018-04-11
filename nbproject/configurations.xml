@@ -11,8 +11,10 @@
                    displayName="Resource Files"
                    projectFiles="true">
       <itemPath>FuncionesDinamicaRed.c</itemPath>
-      <itemPath>FuncionesNodo.c</itemPath>
+      <itemPath>FuncionesExtras.c</itemPath>
+      <itemPath>FuncionesRecableadoRed.c</itemPath>
       <itemPath>FuncionesRed.c</itemPath>
+      <itemPath>FuncionesSuperRed.c</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
@@ -48,9 +50,13 @@
       </compileType>
       <item path="FuncionesDinamicaRed.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="FuncionesNodo.c" ex="false" tool="0" flavor2="0">
+      <item path="FuncionesExtras.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="FuncionesRecableadoRed.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="FuncionesRed.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="FuncionesSuperRed.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="functions.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -81,9 +87,13 @@
       </compileType>
       <item path="FuncionesDinamicaRed.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="FuncionesNodo.c" ex="false" tool="0" flavor2="0">
+      <item path="FuncionesExtras.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="FuncionesRecableadoRed.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="FuncionesRed.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="FuncionesSuperRed.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="functions.h" ex="false" tool="3" flavor2="0">
       </item>

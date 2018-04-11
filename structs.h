@@ -23,9 +23,17 @@ typedef struct{
   int estadoAntiguo;
   int k; // número de elementos en cnx
   int *cnx; // conexiones
-  int nulos;
-} nodo;
+} Nodo;
 
+
+typedef struct{
+  int id;
+  int N;
+  int K;
+  float p;
+  float r;
+  Nodo* nodos;
+} Red;
 
 #ifdef __cplusplus
 }

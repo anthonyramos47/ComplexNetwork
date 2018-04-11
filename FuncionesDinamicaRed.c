@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+/*
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include "structs.h"
 #include "functions.h"
 
-extern nodo red[];
+extern Nodo red[];
 
 float criticalProbAct(int K, float probRecableado, int T){
   int n,maxNumberOfBisections;
@@ -109,3 +111,23 @@ void correccionEstadosRed( void ){
       red[i].estadoAntiguo = red[i].estadoActual;
   }
 }
+
+void liberarMemoria(void){
+  int i;
+  for(i=0;i<N;++i) free(red[i].cnx);
+}
+
+void imprimir(int i){
+  int j;
+  printf("Nodo: %i\t",i );
+  for(j=0;j<red[i].k;++j) printf( "\t%d",red[i].cnx[j]); printf("\n");
+}
+ * 
+ * 
+ * */
+ * 
+ * 
+ * 
+ * 
+*/
+
