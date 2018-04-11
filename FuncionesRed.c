@@ -76,9 +76,8 @@ void recablearRed(Red* red, int numReds){
     //--
     
     //Son variables auxiliares
-    int idxNuevoP, idxElimP, idxActualM, idxViejoP, idxNuevoM;
-    Nodo* nuevoNodo, nodoRecablear;
-    Nodo* viejoNodo;
+    int idxNuevoP, idxViejoP, idxActualM, idxActualEnViejoP, idxNuevoM;
+    Nodo *nuevoNodo, *nodoActual, *viejoNodo;
 
     //Iteramos sobre cada nodo
     for(int i= N-1;i>=0;--i){
@@ -93,27 +92,27 @@ void recablearRed(Red* red, int numReds){
                 idxViejoP = (nodos[i].cnx[j] - clase)/numReds;
                 //Dados dos nodos i y j, se halla el indice posicional donde se 
                 //encuentra el nodo i en el arreglo de conexiones del nodo j 
-                idxElimP = encontrarEnVecino(i,nodos[idxViejoP]);
+                idxActualEnViejoP = encontrarEnVecino(i,nodos[idxViejoP]);
                 
                 idxNuevoM = idxNuevoP*numReds+clase;
                 nuevoNodo = &nodos[idxNuevoP];
                 viejoNodo =  &nodos[idxViejoP];
-                nodoRecablear = nodos[i];
+                nodoActual = &nodos[i];
                 
-                recablearNodo(idxActualM, idxElimP, idxNuevoM, j, nuevoNodo, viejoNodo, nodoRecablear);
+                recablearNodo(idxActualM, idxActualEnViejoP, idxNuevoM, j, nuevoNodo, viejoNodo, nodoActual);
                          
             }
         }
     }
 }
 
-void recablearNodo(int idxActualM, int idxElimP, int idxNuevoM, int idxNodoRecaP, Nodo* nuevoNodo, Nodo* viejoNodo, Nodo nodoRecablear){
+void recablearNodo(int idxActualM, int idxActualEnViejoP, int idxNuevoM, int idxActualP, Nodo* nuevoNodo, Nodo* viejoNodo, Nodo* nodoActual){
                 //Añade el indice modular actual al nuevo nodo
                 sumarLink(idxActualM, nuevoNodo);
                 //Corrige el arreglo de conexiones del nodo j
-                swapYQuitarLink(viejoNodo, idxElimP);
+                swapYQuitarLink(viejoNodo, idxActualEnViejoP);
                 //Se asigna la nueva conexion al nodo i
-                nodoRecablear.cnx[idxNodoRecaP]=idxNuevoM;
+                (nodoActual->cnx)[idxActualP]=idxNuevoM;
 }
 
 
