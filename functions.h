@@ -22,9 +22,10 @@ extern "C" {
     
     //FuncionesRed.c
     void inicializarRed(Red*);
-    void cableadoInicial(Red*,int);
-    void imprimirRed(Red*,int);
-    void recablearRed(Red*,int);
+    void cableadoInicial(Red*, int);
+    void imprimirRed(Red*, int);
+    void recablearRed(Red*, int);
+    void recablearNodo(int, int, int, int, Nodo*, Nodo*, Nodo);
     
     
     //FuncionesRecableadoRed.c

@@ -76,7 +76,9 @@ void recablearRed(Red* red, int numReds){
     //--
     
     //Son variables auxiliares
-    int nuevo, idxViejoM, idxActualM, idxViejoP;
+    int idxNuevoP, idxElimP, idxActualM, idxViejoP, idxNuevoM;
+    Nodo* nuevoNodo, nodoRecablear;
+    Nodo* viejoNodo;
 
     //Iteramos sobre cada nodo
     for(int i= N-1;i>=0;--i){
@@ -86,25 +88,32 @@ void recablearRed(Red* red, int numReds){
                 //Convertimos el indice "i" al respectivo valor modular
                 idxActualM = i*numReds+clase;
                 //Se obtiene el indice posicional del nodo nuevo
-                nuevo = generarNodoAleatorio(idxActualM, N, numReds, clase, nodos[i]);
-                //Añade el indice modular actual al nuevo nodo
-                sumarLink(idxActualM, &nodos[nuevo]);
+                idxNuevoP = generarNodoAleatorio(idxActualM, N, numReds, clase, nodos[i]);
                 //Obtenemos el indice posicional del vecino j
                 idxViejoP = (nodos[i].cnx[j] - clase)/numReds;
                 //Dados dos nodos i y j, se halla el indice posicional donde se 
                 //encuentra el nodo i en el arreglo de conexiones del nodo j 
-                idxViejoM = encontrarEnVecino(i,nodos[idxViejoP]);
-                //Corrige el arreglo de conexiones del nodo j
-                swapYQuitarLink(&nodos[idxViejoP], idxViejoM);
-                //Se asigna la nueva conexion al nodos i
-                nodos[i].cnx[j]=nuevo*numReds+clase;
+                idxElimP = encontrarEnVecino(i,nodos[idxViejoP]);
+                
+                idxNuevoM = idxNuevoP*numReds+clase;
+                nuevoNodo = &nodos[idxNuevoP];
+                viejoNodo =  &nodos[idxViejoP];
+                nodoRecablear = nodos[i];
+                
+                recablearNodo(idxActualM, idxElimP, idxNuevoM, j, nuevoNodo, viejoNodo, nodoRecablear);
+                         
             }
         }
     }
 }
 
-void recablearNodo(){
-    
+void recablearNodo(int idxActualM, int idxElimP, int idxNuevoM, int idxNodoRecaP, Nodo* nuevoNodo, Nodo* viejoNodo, Nodo nodoRecablear){
+                //Añade el indice modular actual al nuevo nodo
+                sumarLink(idxActualM, nuevoNodo);
+                //Corrige el arreglo de conexiones del nodo j
+                swapYQuitarLink(viejoNodo, idxElimP);
+                //Se asigna la nueva conexion al nodo i
+                nodoRecablear.cnx[idxNodoRecaP]=idxNuevoM;
 }
 
 
