@@ -92,7 +92,7 @@ void recablearRed(Red* red, int numReds){
                 idxViejoP = (nodos[i].cnx[j] - clase)/numReds;
                 //Dados dos nodos i y j, se halla el indice posicional donde se 
                 //encuentra el nodo i en el arreglo de conexiones del nodo j 
-                idxActualEnViejoP = encontrarEnVecino(i,nodos[idxViejoP]);
+                idxActualEnViejoP = encontrarEnVecino(idxActualM,nodos[idxViejoP]);
                 
                 idxNuevoM = idxNuevoP*numReds+clase;
                 nuevoNodo = &nodos[idxNuevoP];

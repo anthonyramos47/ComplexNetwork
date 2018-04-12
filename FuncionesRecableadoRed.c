@@ -13,7 +13,6 @@ int generarNodoAleatorio(int indiceConvertido, int N, int numReds, int clase, No
     if(numNodo != indiceConvertido){
       for(j=0;j<nodo.k;++j){
           if(numNodo ==nodo.cnx[j]){
-              encontrado = true;
               break;
           }
       }
