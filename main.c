@@ -22,35 +22,34 @@
 int main(int argc, char** argv) {
     
     /*Definicion de parametros globales*/
-    int K = 4, N= 10, numReds = 1;
+    int K = 4, N= 10, numReds = 2;
     float p = 0.5, r = 0.1;
     
     
     Red red1 = {0,N,K,p,r};
-//    Red red2 = {1,N,K,p,r};
+    Red red2 = {1,N,K,p,r};
 //    Red red3 = {2,N,K,p,r};
 
     
     inicializarRed(&red1);
-//    inicializarRed(&red2);
 //    inicializarRed(&red3);
-
-    
     cableadoInicial(&red1,numReds);
-//    cableadoInicial(&red2,numReds);
 //    cableadoInicial(&red3,numReds);
-
-    
     imprimirRed(&red1,numReds);
-    
     printf("\n--------------------------------------\n");
     recablearRed(&red1,numReds);
-    //recablearRed(&Red2, numReds);
+    imprimirRed(&red1,numReds);
 
+    printf("\n--------------------------------------\n");
+    printf("\n--------------------------------------\n");
 
     
-    imprimirRed(&red1,numReds);
-//    imprimirRed(&red2,numReds);
+    inicializarRed(&red2);
+    cableadoInicial(&red2,numReds);
+    imprimirRed(&red2,numReds);
+    printf("\n--------------------------------------\n");
+    recablearRed(&red2, numReds);
+    imprimirRed(&red2,numReds);
 //    imprimirRed(&red3,numReds);
 
     

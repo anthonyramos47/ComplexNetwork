@@ -25,7 +25,7 @@ extern "C" {
     void cableadoInicial(Red*, int);
     void imprimirRed(Red*, int);
     void recablearRed(Red*, int);
-    void recablearNodo(int, int, int, int, Nodo*, Nodo*, Nodo);
+    void recablearNodo(int, int, int, int, Nodo*, Nodo*, Nodo*);
     
     
     //FuncionesRecableadoRed.c
@@ -38,6 +38,8 @@ extern "C" {
     float prob(void);
     
     
+    //FuncionesSuperRed.c
+    int generarNodoAleatorioRedes(Nodo*, Red*, int, int, int);
     
 //_----------------------------------    
     

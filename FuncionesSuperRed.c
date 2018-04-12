@@ -1,9 +1,11 @@
-#include <stdbool.h>
 
+/*
+#include <stdbool.h>
+#include "functions.h"
 #include "structs.h"
 
 void recablearDosRedes(Red* red1, Red* red2, int numCnxs, int numReds, int N){
-    int rndNods = {7,37,47,31,13,131,141,83,139,151,2};
+    int rndNods[] = {7,37,47,31,13,131,141,83,139,151,2};
     int indiceConvertido2, idxNodoR1_P, idxNodoR2_P, kNodoRed2, kNodoRed1, idxNodoRecablearR1_P, idxNodoR1_M, idxNodoR2_M, idxNodoRecablearR1_M ;
     int posicionRecablearNodoR1;
     // La _P denota indices posicionales y _M indices modulares
@@ -70,8 +72,8 @@ void correccionRecableado(int k1, int k2, Red* red1, Red* red2, int N, int numRe
     // Modularizamos la posicion del nodo que conserva k de la red 2
     idxRecableadoR2_M = idxAuxR2_P * numReds + clase2;
     
-    /* Obtenemos el indice modular del nodo que tiene como vecino 
-     * el nodo que conserva k de la red 2 */
+    // Obtenemos el indice modular del nodo que tiene como vecino 
+    // el nodo que conserva k de la red 2
     idxNodoR2_M = indiceAleatorioConexion(red2, idxRecablearR2_P, numReds);
     // Obetenemos la posicion del nodo que tienee como vecino el nodo que conserva
     // k de la red 2
@@ -167,3 +169,4 @@ bool estaEnNodo(Nodo* nodo, int nuevoVecino){
     return encontrado; 
 }
 
+*/
