@@ -1,172 +1,143 @@
 
-/*
-#include <stdbool.h>
-#include "functions.h"
+
 #include "structs.h"
+#include <stdlib.h>
+#include "functions.h"
+#include <stdio.h>
+#include <stdbool.h>
 
-void recablearDosRedes(Red* red1, Red* red2, int numCnxs, int numReds, int N){
-    int rndNods[] = {7,37,47,31,13,131,141,83,139,151,2};
-    int indiceConvertido2, idxNodoR1_P, idxNodoR2_P, kNodoRed2, kNodoRed1, idxNodoRecablearR1_P, idxNodoR1_M, idxNodoR2_M, idxNodoRecablearR1_M ;
-    int posicionRecablearNodoR1;
-    // La _P denota indices posicionales y _M indices modulares
-    Nodo* nodos2 = red2 -> nodos; // obtenemos los nodos de la red 2
-    Nodo* nodos1 = red1 -> nodos; // obtenemos los nodos de la red 1
-    int claseR1 = red1 -> id;
-    int claseR2 = red2 -> id;
+void recablearDosRedes(Red* red1, Red* red2, int numCnxs, int numReds,float probConexiones){
+    
+//    int rndNods[];
+//    GenerarNodosRandom(rndNods,red1->N,numCnxs);
+    
+    //Parametros
+    Nodo* nodosRed1 = red1 -> nodos; //invocamos al arreglo de nodos de la red
+    Nodo* nodosRed2 = red2 -> nodos; //invocamos al arreglo de nodos de la red
+    int clase1 = red1->id;
+    int clase2 = red2->id;
+    
+    //Variables Auxiliares
+    int idxActualRed1P, idxActualRed2P, idxVecinoEnActual1P,  idxVecinoEnActual2P;
+    int idxVecinoRed1P, idxVecinoRed2P, idxActualEnVecino1P, idxActualEnVecino2P;
+    //
+    
     for (int i = 0; i < numCnxs; i++){
-        idxNodoR1_P = rndNods[i]; // elejimos un nodo aleatorio de la red 1
-        idxNodoR1_M = idxNodoR1_P*numReds + claseR1; // Modularizamos el nodo posicional de la red1
         
-        // Obtenemos de manera aleatoria y verificando que no se encuentre en nodo de la red 1, la posicion de un nodo de la red 2
-        idxNodoR2_P = generarNodoAleatorioRedes(nodos1, red2, numReds, idxNodoR1_P, N); 
-        // Modularizamos el nodo de la red 2
-        idxNodoR2_M = idxNodoR2_P * numReds + claseR2; 
-        
-        kNodoRed2 = nodos2[idxNodoR2_P].k + 1; // obtenemos el k a preservar de la red 2
-        idxNodoRecablearR1_P = generarNodoAleatorio( idxNodoR1_M, N, numReds, claseR1, nodos1[idxNodoR1_P]); // obtenemos un nodo aleatorio a recablear de la red1
-        idxNodoRecablearR1_M = idxNodoRecablearR1_P * numReds + claseR1 ; // Modularizamos el indice del nodo a recablear
-        posicionRecablearNodoR1 = encontrarEnVecino(idxNodoRecablearR1_M, nodos1[idxNodoR1_P]);
-        kNodoRed1 = nodos1[(nodos1[idxNodoRecablearR1_P]-claseR1)/ numReds].k - 1 ; // obtenemos el k a preservar de la red 1
-        
-        // recableamos estos nodos
-        recablearNodo(idxNodoR1_M, idxNodoR1_P, idxNodoR2_M, posicionRecablearNodoR1, &nodos2[idxNodoR2_P], &nodos1[idxNodoRecablearR1_P], &nodos1[idxNodoR1_P]);                 
-    }       
-} 
+//        if(prob()<probConexiones){
+            //Establezco los indices posicionales de los nodos elegido en Red1 y Red2 Aleatoriamente
+            idxActualRed1P = EscogerNodoAleatorioEnRed(red1,numReds);
+            idxActualRed2P = EscogerNodoAleatorioEnRed(red2,numReds);
+            
+            //Establezco los indices posicionales de los nodos vecinos elegido en Red1 y Red2
+            //Establezco los indices poscionales de los vecinos en los nodos actuales
+            idxVecinoEnActual1P = EscogerVecino(red1,&nodosRed1[idxActualRed1P],&idxVecinoRed1P,numReds);
+            idxVecinoEnActual2P = EscogerVecino(red2,&nodosRed2[idxActualRed2P],&idxVecinoRed2P,numReds);
 
+            //Establezco los indices poscionales de los actuales en los nodos vecinos
+            idxActualEnVecino1P = BuscarIndiceEnConexiones(&nodosRed1[idxVecinoRed1P],idxActualRed1P*numReds+clase1);
+            idxActualEnVecino2P = BuscarIndiceEnConexiones(&nodosRed2[idxVecinoRed2P],idxActualRed2P*numReds+clase2);
 
-int generarNodoAleatorio(int indiceConvertido, int N, int numReds, int clase, Nodo nodo){
-  int j, numNodo;
-  bool encontrado = false;
-  while(!encontrado){
-    numNodo = (rand()%N)*numReds+clase;
-    if(numNodo != indiceConvertido){
-      for(j=0;j<nodo.k;++j){
-          if(numNodo ==nodo.cnx[j]) {
-             break;
-          }
-      }
-      if(j == nodo.k) encontrado = true;
+            //Imprimir Indices Involucrados
+            printf("\nIndices involucadrados\n");
+            printf("En Red 1\n");
+            printf("Actual: %d \t Vecino: %d\n",idxActualRed1P*numReds+clase1,idxVecinoRed1P*numReds+clase1);
+            printf("En Red 2\n");
+            printf("Actual: %d \t Vecino: %d\n",idxActualRed2P*numReds+clase2,idxVecinoRed2P*numReds+clase2);
+            printf("------------------------\n");
+            
+            
+            
+            // Creo enlace de nodo Red1 ----> nodo Red2
+            AlterarConexiones(&nodosRed1[idxActualRed1P],idxActualRed2P*numReds+clase2,idxVecinoEnActual1P);
+
+            // Creo enlace de nodo Red2 ----> nodo Red1
+            AlterarConexiones(&nodosRed2[idxActualRed2P],idxActualRed1P*numReds+clase1,idxVecinoEnActual2P);
+
+            // Creo enlace de nodo vecino Red1 ----> nodo vecino Red2
+            AlterarConexiones(&nodosRed1[idxVecinoRed1P],idxVecinoRed2P*numReds+clase2,idxActualEnVecino1P);
+
+            // Creo enlace de nodo vecino Red2 ----> nodo vecino Red1
+            AlterarConexiones(&nodosRed2[idxVecinoRed2P],idxVecinoRed1P*numReds+clase1,idxActualEnVecino2P);       
+            
+//        }       
     }
-  }
-  return(numNodo-clase)/numReds; //Regresa la posicion del nodo de en arreglo de nodos
 }
 
-
-
-void correccionRecableado(int k1, int k2, Red* red1, Red* red2, int N, int numReds, int idxExcluidoR1_P, int idxExcluidoR2_P){
-    int idxNodoR1_P, idxAuxR2_P, idxRecableadoR2_P, idxNodoR2_P, idxNodoR1_M, idxNodoR2_M, idxRecableadoR2_M, indicesR2, idxAuxR2_M ;
-    int posicionRecableadoR2;
-    
-    Nodo* nodos1 = red1 -> nodos;
-    Nodo* nodos2 = red2 -> nodos;
-    
-    int clase1 = red1 -> id;
-    int clase2 = red2 -> id;
-    // Obtenemos la posicion del nodo que conserva k de la red 1
-    idxNodoR1_P = generarNodoK(k1, red1, N, idxExcluidoR1_P);
-    // Modularizamos el nodo que conserva k en la red 1
-    idxNodoR1_M = idxNodoR1_P * numReds + clase1;
-    
-    // Obtenemos la posicion del nodo que conserva k de la red 2
-    idxRecableadoR2_P = generarNodoK(k2, red2, N, idxExcluidoR2_P); 
-    // Modularizamos la posicion del nodo que conserva k de la red 2
-    idxRecableadoR2_M = idxAuxR2_P * numReds + clase2;
-    
-    // Obtenemos el indice modular del nodo que tiene como vecino 
-    // el nodo que conserva k de la red 2
-    idxNodoR2_M = indiceAleatorioConexion(red2, idxRecablearR2_P, numReds);
-    // Obetenemos la posicion del nodo que tienee como vecino el nodo que conserva
-    // k de la red 2
-    idxNodoR2_P = encontrarEnVecino();
-    
-    // Denotemos como NR2 al nodo a recablear (conserva k en red 2), entonces
-    // obtenemos la posicion de NR2 en el nodo que lo tiene como vecino
-    posicionRecableadoR2 =  encontrarEnVecino(idxAuxR2_M, nodos2[idxNodoR2_P]);
-    
-      
-    recablearNodo(idxNodoR2_M, idxNodoR2_P, idxNodoR1_M, posicionRecableadoR2, &nodos1[idxNodoR1_P], &nodos2[idxRecableadoR2_P], &nodos2[idxNodoR2_P]);                 
-    
+//Compruebo si la ultima conexion de un nodo dado pertenece a la clase de su red
+bool Conectado(Nodo * nodo,int numReds, int clase){
+    bool conectado = true; //Si no pertenece quiere decir que esta conectado con la otra red
+    int numVecino = nodo->k;
+    int lastIdxModular = nodo->cnx[numVecino-1];
+    if((lastIdxModular-clase)%numReds == 0){
+        conectado = false; //Si pertenece a la no esta conectado y se puede usar
+    }
 }
 
-
-
-void recablearNodo(int idxActualM, int idxElimP, int idxNuevoM, int idxNodoRecaP, Nodo* nuevoNodo, Nodo* viejoNodo, Nodo nodoRecablear){
-                //Añade el indice modular actual al nuevo nodo
-                sumarLink(idxActualM, nuevoNodo);
-                //Corrige el arreglo de conexiones del nodo j
-                swapYQuitarLink(viejoNodo, idxElimP);
-                //Se asigna la nueva conexion al nodo i
-                nodoRecablear.cnx[idxNodoRecaP]=idxNuevoM;
+int EscogerNodoAleatorioEnRed(Red* red,int numReds){ //Podria usar esta funcion para elegir los dos nodos de cada red que van a cambiar
+    int numNodos = red->N;
+    int clase = red->id;
+    
+    int idxAleatorioP = rand()%(numNodos);
+    Nodo nodo = red->nodos[idxAleatorioP];
+    
+    //Si el nodo tiene conexiones ya con la otra red elijo otro aleatorio
+    while(Conectado(&nodo,numReds,clase)){
+        idxAleatorioP = rand()%(numNodos);
+        nodo = red->nodos[idxAleatorioP];
+    }
+    //*/
+    
+  return idxAleatorioP ; //Regresa la posicion del nodo en el arreglo de nodos
 }
 
-int encontrarEnVecino(int indiceConvertidoActual, Nodo nodo){
-  int k;
-  for(k=0;k<nodo.k;++k)if(nodo.cnx[k]==indiceConvertidoActual) break;
-  return(k);
+//Tiene dos funciones 
+//1) Con el return. Elegir un nodo vecino de los conexiones de un nodo y regresar su indice posicional. 
+//2) Con un puntero. Regresar el indice posicional de tal todo en los nodos de la red
+int EscogerVecino(Red* red, Nodo* nodoActual, int *idxPosicionEnNodos, int numReds){
+    int numVecinos = nodoActual->k;
+    int clase = red->id;
+
+    int idxEnCnxP = rand()%(numVecinos);            //Eligo un vecino al azar
+    int idxEnNodos = ((nodoActual->cnx[idxEnCnxP]- clase)/numReds); //Saco el indice para buscarlo en el array de nodos
+    Nodo nodoAleatorioVecino = red->nodos[idxEnNodos];  //Tomo el nodo del array de nodos de la red dad
+    
+    //Si el nodo aleatorio que escojo de los vecinos tiene conexiones con la otra red escojo otro vecino
+    while(Conectado(&nodoAleatorioVecino,numReds,clase)){
+        int idxEnCnxP = rand()%(numVecinos);            //Eligo un vecino al azar
+        int idxEnNodos = ((nodoActual->cnx[idxEnCnxP]- clase)/numReds); //Saco el indice para buscarlo en el array de nodos
+        Nodo nodoAleatorioVecino = red->nodos[idxEnNodos];  //Tomo el nodo del array de nodos de la red dad
+    }
+    
+    *idxPosicionEnNodos = idxEnNodos ; //El indice posicional pasado como puntero
+    return idxEnCnxP ; //Regresa la posicion del nodo de en arreglo de conexiones
 }
 
-int indiceAleatorioConexion(Red* red, int idxNodo, int numReds){
-    int maxIdx, rndIdx, idxAleatorio;
-    
-    int clase = red -> id;
-    Nodo* nodos = red -> nodos;
-    maxIdx = nodos.k; // obtenemos un maximo indice de vecinos del nodo
-   
-    // generamos un indice aleatorio que indica la posicion del vecino del nodo
-    // en el arreglo de conexciones
-    rndIdx = rand()%maxIdx ;
-    
-    idxAleatorio = nodos.cnx[rndIdx]; //Obtenemos le indice modular de la conexion
-    
-    return idxAleatorio;
-    
-    
+void AlterarConexiones(Nodo* nodo, int idxModular, int idPosicionalEnCnx){
+    int numVec = nodo -> k;
+    nodo -> cnx[idPosicionalEnCnx] = nodo -> cnx[numVec-1];
+    nodo -> cnx[numVec-1]=idxModular;
 }
-
-
-int generarNodoK(int k1, Nodo* nodos, int N, int idxNodoExcluido){
+ 
+// Con el indiceModular busco en que posicion del array de conexiones esta tal valor y regreso ese indice
+int BuscarIndiceEnConexiones(Nodo* nodo, int idxModular){
+    int numVec = nodo -> k;
+    int *cnx = nodo -> cnx;
     int i;
-    bool encontrado = false;
-    while(i < N && !encontrado){
-        if(nodos[i].k == k1 && i!= idxNodoExcluido){
-            encontrado = true;
-        }
-        else{
-            i +=1;
-        }   
+    for(i = 0; i<numVec; i++){
+        if(cnx[i]==idxModular){
+        break;}
     }
-    if (!encontrado){
-        i = idxNodoExcluido;
-    }
-    return i;
+    
+    int idxPosicionalEnVec = i;
+    return idxPosicionalEnVec;
 }
 
-
-int generarNodoAleatorioRedes(Nodo* nodos1, Red* red2, int numReds, int idxNodo, int N){
-  int j, numNodo_M;
-  bool encontrado = false;
-  int clase = red2 -> id;
-  Nodo* nodo1 = nodos1[idxNodo] ;
-  while(!encontrado){
-    numNodo_M = (rand()%N)*numReds+clase;
-    if (!estaEnNodo(nodo1, numNodo_M)){
-        encontrado = true;
+//Genero nodos aleatorios de N/2 a N
+void GenerarNodosRandom(int *rndNodos,int N,int numCnxs){
+    rndNodos = malloc(numCnxs*sizeof(int));
+    for(int i = 0; i<numCnxs;i++){
+        rndNodos[i] = (rand()%(N/2))+(N/2);
     }
-  }
-  return(numNodo_M-clase)/numReds; //Regresa la posicion del nodo de en arreglo de nodos
 }
 
-
-bool estaEnNodo(Nodo* nodo, int nuevoVecino){
-    int j;
-    bool encontrado = false;
-    while(j< nodo.k && !encontrado){
-        if(nuevoVecino == nodo->cnx[j]){
-            encontrado = true;
-        }
-        j += 1;
-    }
-    return encontrado; 
-}
-
-*/

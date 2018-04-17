@@ -39,7 +39,13 @@ extern "C" {
     
     
     //FuncionesSuperRed.c
-    int generarNodoAleatorioRedes(Nodo*, Red*, int, int, int);
+    void recablearDosRedes(Red* , Red* , int , int ,float );
+    bool Conectado(Nodo *,int , int );
+    int EscogerNodoAleatorioEnRed(Red*, int);
+    int EscogerVecino(Red*, Nodo* , int *, int);
+    void AlterarConexiones(Nodo* , int , int );
+    int BuscarIndiceEnConexiones(Nodo* , int );
+    void GenerarNodosRandom(int *,int ,int );
     
 //_----------------------------------    
     
