@@ -10,7 +10,9 @@
  *
  * Created on 4 de abril de 2018, 17:17
  */
+#include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 #include "structs.h"
 
 #ifndef FUNCTIONS_H
@@ -36,7 +38,7 @@ extern "C" {
     
     //FuncionesExtras.c
     float prob(void);
-    
+       
     
     //FuncionesSuperRed.c
     void recablearDosRedes(Red* , Red* , int , int ,float );
@@ -47,22 +49,29 @@ extern "C" {
     int BuscarIndiceEnConexiones(Nodo* , int );
     void GenerarNodosRandom(int *,int ,int );
     
+     //FuncionesDinamicaRed.c
+    void actualizarEstadoNodo(Red*, int, int, float);
+    void actualizarEstadoNodoRedes(Red*, Red*, int, int, float);
+    bool algunVecinoActivo(Red*, int, int);
+    bool algunVecinoActivoRedes(Red*, Red*, int, int);
+    void actualizarRed(Red*, int, int);
+    void correccionEstadosRed(Red*);
+    void inicializarMuestra(Red*, int);
+    float actividadRed(Red*);
+    void inicializarEstadosRed(Red*);
+    float actividadMuestra(Red*, int, float);
+    void liberarMemoria(Red*);
+    void imprimir(Red*, int);
+    void actualizarRedPaso(Red*, Red*, int, FILE*, FILE*);
+    void actividadRedes(Red*, Red*, int, float);
+    void colorearNodo(Red*, int, FILE*, FILE*);
+    void generarEImprimirMatrizAdyacente(Red*, int);
+    
+    
+    
 //_----------------------------------    
     
-    
-    void liberarMemoria(void);
-    void imprimir(int);
-   
-    float criticalProbAct(int, float, int);
-    void inicializarMuestra(int, float);
-    void actualizarRed(float, int);
-    void actualizarEstadoNodo(int, float);
-    bool algunVecinoActivo(int);
-    float actividadRed(void);
-   
-    void inicializarEstadosRed();
-    void correccionEstadosRed(void);
-    float actividadMuestra(float, float);
+
     
 #ifdef __cplusplus
 }

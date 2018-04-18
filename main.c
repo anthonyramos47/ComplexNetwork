@@ -13,6 +13,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <time.h>
 #include "structs.h"
 #include "functions.h"
 
@@ -22,19 +24,40 @@
 int main(int argc, char** argv) {
     
     /*Definicion de parametros globales*/
-    int K = 4, N= 10, numReds = 2,numConx=2;
-    float p = 0.5, r = 0.1,q=0.01; //q aun no estamos usando revisar las funciones superRed
+    int K = 16, N= 1000, numReds = 2,numConx=2;
+    float p = 0.08, r = 0.1 ,q=0.01; //q aun no estamos usando revisar las funciones superRed
+    int T = 2000;
+    float actRed1, actRed2;
     
+    //srand(time(NULL));
+    
+    srand(300);
     
     Red red1 = {0,N,K,p,r};
     Red red2 = {1,N,K,p,r};
 
     //Inicializo las redes
-    inicializarRed(&red1);
-    inicializarRed(&red2);
+    /* inicializarRed(&red1); */
+    /*inicializarRed(&red2); */
+    
+    inicializarMuestra(&red1, numReds);
+    //actRed1 = actividadMuestra(&red1, T);
+    //printf("Actividad Red 1: %f \n", actRed1);
+    
+    generarEImprimirMatrizAdyacente(&red1, numReds);
     
     
+    inicializarMuestra(&red2, numReds);
+    //actRed2 = actividadMuestra(&red2, T);
+    //printf("Actividad Red 2: %f \n", actRed2);
+    recablearDosRedes(&red1,&red2,numConx,numReds,q);
+    //generarEImprimirMatrizAdyacente(&red2, numReds);
     
+    actividadRedes(&red1, &red2, numReds, T);
+    //imprimirRed(&red1,numReds);
+    
+    //imprimirRed(&red2,numReds);
+    /*
     printf("\n--------------------------------------\n");
     printf("\nCABLEADO INICIAL\n");
     
@@ -58,7 +81,7 @@ int main(int argc, char** argv) {
 
     recablearDosRedes(&red1,&red2,numConx,numReds,q);
     imprimirRed(&red1,numReds);
-    imprimirRed(&red2,numReds);
+    imprimirRed(&red2,numReds); */ 
     
         
     return (EXIT_SUCCESS);
