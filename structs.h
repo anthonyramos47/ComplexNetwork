@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-/* 
+/*
  * File:   structs.h
  * Author: zoso
  *
@@ -23,6 +23,10 @@ typedef struct{
   int estadoAntiguo;
   int k; // número de elementos en cnx
   int *cnx; // conexiones
+  float area;
+  float poblacion;
+  float poblacionCrit;
+  int pasoEvol;
 } Nodo;
 
 
@@ -40,4 +44,3 @@ typedef struct{
 #endif
 
 #endif /* STRUCTS_H */
-
